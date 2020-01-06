@@ -1,0 +1,27 @@
+{
+  "uiValue": "This is a string at ROOT level",
+  "children": [
+    {
+      "uiValue": "This is the first level 1 string"
+    },
+    [
+      {
+        "uiValue": "This is the first level 2 string"
+      },
+      {
+        "uiValue": "This is the second level 2 string"
+      },
+      [
+        {
+          "uiValue": "This is the first level 3 string"
+        },
+        {
+          "uiValue": "This is the second level 3 string"
+        }
+      ]
+    ],
+    {
+      "uiValue": "This is the second level 1 string"
+    }
+  ]
+}
