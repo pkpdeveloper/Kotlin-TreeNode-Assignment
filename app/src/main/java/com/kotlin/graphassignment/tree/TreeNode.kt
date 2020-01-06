@@ -66,6 +66,23 @@ class TreeNode<T, Int>(private val value: String, private val level: Int) {
         }
         return null
     }
+
+    fun getSortedTreeNodeList(): List<TreeNode<T, Int>> {
+        val sortedSet = mutableSetOf<TreeNode<T, Int>>()
+        sortedSet.add(this)
+        processChildNodes(sortedSet, this.getChildren())
+        return sortedSet.sortedBy { it.getLevel().toString() }
+    }
+
+    private fun processChildNodes(
+        sortedSet: MutableSet<TreeNode<T, Int>>,
+        children: MutableSet<TreeNode<T, Int>>
+    ) {
+        children.forEach {
+            sortedSet.add(it)
+            processChildNodes(sortedSet, it.getChildren())
+        }
+    }
 }
 
 fun Node.processJsonArray(jsonArray: JSONArray, level: kotlin.Int) {

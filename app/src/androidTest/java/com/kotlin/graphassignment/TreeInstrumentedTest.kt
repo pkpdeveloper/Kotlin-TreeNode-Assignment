@@ -71,6 +71,33 @@ class TreeInstrumentedTest {
 
     }
 
+    @Test
+    fun sortedTreeNodeInputTest() {
+
+        val json = JsonUtils.loadJSONFromAsset(appContext, "input.json")
+        assertNotNull(json)
+        val level = 0
+        val treeNode = Node(json.getString("uiValue"), level)
+        assertNotNull(treeNode)
+
+        val children = json.getJSONArray("children")
+        assertNotNull(children)
+
+        //process json data and add it to treeNode
+        treeNode.processJsonArray(children, level)
+
+        val sortedTreeNodeList = treeNode.getSortedTreeNodeList()
+
+        // Test expected values
+        assertEquals(0, sortedTreeNodeList[0].getLevel())
+        assertEquals(1, sortedTreeNodeList[1].getLevel())
+        assertEquals(1, sortedTreeNodeList[2].getLevel())
+        assertEquals(2, sortedTreeNodeList[3].getLevel())
+        assertEquals(2, sortedTreeNodeList[4].getLevel())
+        assertEquals(3, sortedTreeNodeList[5].getLevel())
+        assertEquals(3, sortedTreeNodeList[6].getLevel())
+    }
+
     private fun testNodeExists(rootNode: Node, expectedValue: String, expectedLevel: Int) {
         val resultNode = rootNode.find(expectedValue, expectedLevel)
         assertEquals(expectedValue, resultNode?.getValue())
