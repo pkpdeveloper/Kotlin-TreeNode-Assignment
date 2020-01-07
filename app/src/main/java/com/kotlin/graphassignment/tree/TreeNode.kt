@@ -95,7 +95,7 @@ class TreeNode<T, Int>(private val value: String, private val level: Int) :
         private val sortedList = treeNode.getSortedTreeNodeList()
 
         override fun hasNext(): Boolean {
-            return currentIndex < sortedList.size - 2
+            return currentIndex < sortedList.size - 1
         }
 
         override fun hasPrevious(): Boolean {

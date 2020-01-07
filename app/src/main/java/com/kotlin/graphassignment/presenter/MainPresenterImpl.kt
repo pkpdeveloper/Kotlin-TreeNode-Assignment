@@ -16,12 +16,20 @@ class MainPresenterImpl : MainPresenter {
     }
 
     override fun next() {
+        if (treeNodeIterator.hasNext()) {
+            view.display(treeNodeIterator.next())
+        }
         view.nextButtonEnabled(treeNodeIterator.hasNext())
-        view.display(treeNodeIterator.next())
+        view.previousButtonEnabled(treeNodeIterator.hasPrevious())
+
     }
 
     override fun previous() {
+        if (treeNodeIterator.hasPrevious()) {
+            view.display(treeNodeIterator.previous())
+        }
+        view.nextButtonEnabled(treeNodeIterator.hasNext())
         view.previousButtonEnabled(treeNodeIterator.hasPrevious())
-        view.display(treeNodeIterator.previous())
+
     }
 }

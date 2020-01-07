@@ -4,9 +4,7 @@ import com.kotlin.graphassignment.tree.Node
 import com.kotlin.graphassignment.tree.TreeNodeIterator
 import com.kotlin.graphassignment.view.MainView
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -29,24 +27,38 @@ class MainPresenterImplTest {
     }
 
     @Test
-    fun uiChangesTest() {
+    fun uiChangesNextActionTest() {
         val rootNode = Node("root", 0)
-        val firstNode = Node("first", 0)
 
         Mockito.`when`(mockTreeNodeIterator.hasNext()).thenReturn(true)
+        Mockito.`when`(mockTreeNodeIterator.hasPrevious()).thenReturn(true)
         Mockito.`when`(mockTreeNodeIterator.next()).thenReturn(rootNode)
 
-        Mockito.`when`(mockTreeNodeIterator.hasPrevious()).thenReturn(true)
-        Mockito.`when`(mockTreeNodeIterator.previous()).thenReturn(firstNode)
 
         // call next
         presenter.next()
 
         Mockito.verify(mockView).nextButtonEnabled(true)
+        Mockito.verify(mockView).previousButtonEnabled(true)
         Mockito.verify(mockView).display(rootNode)
 
+    }
+
+    @Test
+    fun uiChangesPreviousActionTest() {
+        val rootNode = Node("root", 0)
+
+        Mockito.`when`(mockTreeNodeIterator.hasNext()).thenReturn(false)
+        Mockito.`when`(mockTreeNodeIterator.hasPrevious()).thenReturn(true)
+        Mockito.`when`(mockTreeNodeIterator.previous()).thenReturn(rootNode)
+
+
+        // call next
         presenter.previous()
+
+        Mockito.verify(mockView).nextButtonEnabled(false)
         Mockito.verify(mockView).previousButtonEnabled(true)
+        Mockito.verify(mockView).display(rootNode)
 
     }
 }
