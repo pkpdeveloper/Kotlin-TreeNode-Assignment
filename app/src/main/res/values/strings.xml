@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Kotlin Graph Assignment</string>
+    <string name="label_previous_button">Previous</string>
+    <string name="label_next_button">Next</string>
 </resources>
