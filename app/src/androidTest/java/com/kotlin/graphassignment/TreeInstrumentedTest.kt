@@ -6,8 +6,7 @@ import com.kotlin.graphassignment.tree.Node
 import com.kotlin.graphassignment.tree.TreeNode
 import com.kotlin.graphassignment.tree.processJsonArray
 import com.kotlin.graphassignment.utils.JsonUtils
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNotNull
+import junit.framework.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -96,6 +95,36 @@ class TreeInstrumentedTest {
         assertEquals(2, sortedTreeNodeList[4].getLevel())
         assertEquals(3, sortedTreeNodeList[5].getLevel())
         assertEquals(3, sortedTreeNodeList[6].getLevel())
+    }
+
+    @Test
+    fun sortedTreeNodeIteratorTest() {
+
+        val json = JsonUtils.loadJSONFromAsset(appContext, "input.json")
+        assertNotNull(json)
+        val level = 0
+        val treeNode = Node(json.getString("uiValue"), level)
+        assertNotNull(treeNode)
+
+        val children = json.getJSONArray("children")
+        assertNotNull(children)
+
+        //process json data and add it to treeNode
+        treeNode.processJsonArray(children, level)
+
+        val iterator = treeNode.getIterator()
+
+        // Test expected values
+        assertNotNull(iterator)
+        assertTrue(iterator.hasNext())
+        assertFalse(iterator.hasPrevious())
+        assertEquals("This is a string at ROOT level", iterator.next().getValue())
+        assertFalse(iterator.hasPrevious())
+        assertTrue(iterator.hasNext())
+        assertEquals("This is the first level 1 string", iterator.next().getValue())
+        assertTrue(iterator.hasPrevious())
+        assertEquals("This is a string at ROOT level", iterator.previous().getValue())
+
     }
 
     private fun testNodeExists(rootNode: Node, expectedValue: String, expectedLevel: Int) {

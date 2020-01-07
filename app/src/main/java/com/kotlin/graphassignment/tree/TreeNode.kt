@@ -5,7 +5,8 @@ import org.json.JSONObject
 
 typealias Node = TreeNode<String, Int>
 
-class TreeNode<T, Int>(private val value: String, private val level: Int) {
+class TreeNode<T, Int>(private val value: String, private val level: Int) :
+    TreeNodeIterable<TreeNode<T, Int>> {
     private var parent: TreeNode<T, Int>? = null
 
     private var children = mutableSetOf<TreeNode<T, Int>>()
@@ -83,6 +84,36 @@ class TreeNode<T, Int>(private val value: String, private val level: Int) {
             processChildNodes(sortedSet, it.getChildren())
         }
     }
+
+    override fun getIterator(): TreeNodeIterator<TreeNode<T, Int>> {
+        return MyTreeNodeIterator(this)
+    }
+
+    inner class MyTreeNodeIterator(treeNode: TreeNode<T, Int>) :
+        TreeNodeIterator<TreeNode<T, Int>> {
+        private var currentIndex = -1
+        private val sortedList = treeNode.getSortedTreeNodeList()
+
+        override fun hasNext(): Boolean {
+            return currentIndex < sortedList.size - 2
+        }
+
+        override fun hasPrevious(): Boolean {
+            return currentIndex > 0
+        }
+
+        override fun next(): TreeNode<T, Int> {
+            currentIndex++
+            return sortedList[currentIndex]
+        }
+
+        override fun previous(): TreeNode<T, Int> {
+            currentIndex--
+            return sortedList[currentIndex]
+        }
+
+    }
+
 }
 
 fun Node.processJsonArray(jsonArray: JSONArray, level: kotlin.Int) {
